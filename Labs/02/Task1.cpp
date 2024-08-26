@@ -15,12 +15,18 @@ int main(){
     }
 
     int elements[5];
+    // Copying data to a new array
+
     // Allocating new memory for each row
     for (int i=0; i<rows; ++i){
         cout<<"Enter number of elements for row "<<i+1<<": ";
         cin>>elements[i];
+        int* temp = new int[elements[i]];
+        for(int j=0; j<size[i]; ++j){
+            temp[j] = Array[i][j];
+        }
         delete[] Array[i];
-        Array[i] = new int[elements[i]];
+        Array[i] = temp;
     }
 
     // Taking inputs for the resized rows

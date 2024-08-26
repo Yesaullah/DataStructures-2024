@@ -11,7 +11,7 @@ int main(){
     // Allocating memory for each row
     int size[5] = {2, 3, 6, 1, 4};
     for (int i=0; i<rows; ++i){
-        Array[i] = new int[5];
+        Array[i] = new int[size[i]];
     }
 
     int elements[5];

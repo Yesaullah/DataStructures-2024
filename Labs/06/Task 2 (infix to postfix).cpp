@@ -4,21 +4,21 @@ using namespace std;
 
 class Stack {
   int top;
-  int capacity;
+  int size;
   char *arr;
 
  public:
   Stack() {
     top = -1;
-    capacity = 10;
-    arr = new char[capacity];
+    size = 10;
+    arr = new char[size];
   }
   Stack(int n) {
     top = -1;
-    capacity = n;
-    arr = new char[capacity];
+    size = n;
+    arr = new char[size];
   }
-  bool is_full() { return top == capacity - 1; }
+  bool is_full() { return top == size - 1; }
   bool is_empty() { return top == -1; }
   void push(int value) {
     // if the stack is full
@@ -52,67 +52,63 @@ class Stack {
 bool is_operator(char c) {
   return c == '+' || c == '-' || c == '*' || c == '/' || c == '^';
 }
-
-int precdence(char c) {
-  if (c == '+' || c == '-') {
-    return 1;
-  }
-  if (c == '*' || c == '/') {
-    return 2;
-  }
-  if (c == '^') {
-    return 3;
-  }
+// Function to return precedence of operators
+int precedence(char op) {
+  if (op == '+' || op == '-') return 1;
+  if (op == '*' || op == '/') return 2;
+  if (op == '^') return 3;
   return 0;
 }
 
 string infix_to_postfix(string infix) {
   int length = infix.length();
-  Stack s(length);
-
+  Stack S(length);
   string postfix = "";
   for (char &c : infix) {
-    // if the character is a blank space it is ignored
     if (c == ' ') {
       continue;
     }
-    // if the character is an operand it is appended to the postfix expression 
-    else if (isalnum(c)) {
+    // if the char is an operand it is eppended to the postfix string
+    if (isalnum(c)) {
       postfix += c;
     }
-    // if the character is an opening bracket it is pushed onto the stack 
+    // if the char is opening bracker it is pushed on the stack
     else if (c == '(') {
-      s.push(c);
+      S.push(c);
     }
-    // if the character is a closig bracket 
-    // stack is popped until opening bracket is encountered
-    // each popped element is appended in the postfix expression
+    // if the char is closing bracket, elements from the stack are popped until
+    // opening bracket is encountere or the stack is empty
     else if (c == ')') {
-      while (!s.is_empty() && s.peek() != '(') {
-        postfix += s.peek();
-        s.pop();
+      while (!S.is_empty() && S.peek() != '(') {
+        postfix += S.peek();
+        S.pop();
       }
-      s.pop();
+      S.pop();  // Remove '(' from the stack
     }
-    // 
-    else (is_operator(c)) {
-      while (!s.is_empty() && precdence(s.peek()) >= precdence(c)) {
-        postfix += s.peek();
-        s.pop();
+    // if  the char is an operator
+    else if (is_operator(c)) {
+      // if the current operator has lower or equal precdence than the operator
+      // at top in the stack
+      while (!S.is_empty() && precedence(S.peek()) >= precedence(c)) {
+        postfix += S.peek();
+        S.pop();
       }
-      s.push(c);
+      S.push(c);  // Push the current operator to the stack
     }
   }
-  while (!s.is_empty()) {
-    postfix += s.peek();
-    s.pop();
+  while (!S.is_empty()) {
+    postfix += S.peek();
+    S.pop();
   }
 
   return postfix;
 }
 
 int main() {
-  string infix = "K+L-M*N+(O^P)*W/U/V*T+Q";
+  string infix;
+
+  cout << "Enter an expression in infix notation: ";
+  cin >> infix;
 
   cout << "Infix Expression: " << infix << endl;
 

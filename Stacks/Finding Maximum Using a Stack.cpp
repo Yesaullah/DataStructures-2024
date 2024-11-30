@@ -33,7 +33,7 @@ class Stack{
             return;
         }
         arr[++top] = x;
-        // if the min_arr is empty or if the top element in it is greater than x
+        // if the max_arr is empty or if the top element in it is greater than x
         if(max_top == -1 || x > max_arr[max_top]){
             max_arr[++max_top] = x;
         }
@@ -48,7 +48,7 @@ class Stack{
         }
         --top;
     }
-    int peek_min(){
+    int peek_max(){
         if(is_max_empty()){
             cout<<"Stack Underflow."<<endl;
             return -1;
@@ -72,6 +72,6 @@ int main(){
         stack.push(arr[i]);
     }
 
-    int max_element = stack.peek_min();
+    int max_element = stack.peek_max();
     cout<<"The maximum element in the array is: "<<max_element<<endl;
 }

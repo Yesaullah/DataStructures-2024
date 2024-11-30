@@ -15,13 +15,13 @@ class Stack{
         top = -1;
         max_top = -1;
     }
-    bool is_min_empty(){
+    bool is_max_empty(){
         return max_top == -1;
     }
     bool is_empty(){
         return top == -1;
     }
-    bool is_min_full(){
+    bool is_max_full(){
         return max_top == capacity-1;
     }
     bool is_full(){
@@ -49,7 +49,7 @@ class Stack{
         --top;
     }
     int peek_min(){
-        if(is_min_empty()){
+        if(is_max_empty()){
             cout<<"Stack Underflow."<<endl;
             return -1;
         }
